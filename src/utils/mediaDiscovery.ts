@@ -1,28 +1,54 @@
 /**
- * Auto-discover media files from public/images/ using import.meta.glob.
- * Vite resolves these at build time. Each key is like
- * "/images/DSC05889.jpg" — already the public URL path.
- *
- * We eagerly import everything from public/images/ so page components
- * can filter by folder prefix at runtime.
+ * Static media manifest — all files are hosted on GitHub Releases.
+ * Base URL for all assets:
  */
+const BASE = 'https://github.com/g-er/ger-port/releases/download/portfolio';
 
 const imageExts = /\.(jpe?g|png|gif|webp|svg|avif)$/i;
 const videoExts = /\.(mp4|mov|webm|ogg|avi)$/i;
 const subtitleExts = /\.(vtt)$/i;
 
-// Glob all files under public/images/ — import.meta.glob needs the filesystem
-// path (including /public/), but at runtime files in public/ are served from root.
-const rawFiles = import.meta.glob<string>('/public/images/**/*.*', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-});
-
-// Strip the /public prefix from keys so they match the runtime serving path
+// Map of virtual path -> remote URL
+// Key format: /images/<folder>/<filename>
 const allFiles: Record<string, string> = {};
-for (const [path, url] of Object.entries(rawFiles)) {
-  allFiles[path.replace(/^\/public/, '')] = url;
+
+const manifest: string[] = [
+  // cycles
+  'cycles/1.JPEG',
+  'cycles/2.mov',
+  'cycles/3.jpg',
+  'cycles/b.jpg',
+  'cycles/DSC05888.jpg',
+  'cycles/DSC05889.jpg',
+  'cycles/IMG_0661.MP4',
+  'cycles/img_0692-1-4.png',
+  // mee
+  'mee/dsc02273-1024x683.jpg',
+  'mee/dsc02302-1024x683.jpg',
+  'mee/dsc02323-1024x683.jpg',
+  'mee/IMG_0629.JPEG',
+  'mee/IMG_0639.MOV',
+  // noah-choking
+  'noah-choking/1.jpg',
+  'noah-choking/2.jpg',
+  'noah-choking/3.MOV',
+  // sld
+  'sld/1.JPEG',
+  'sld/3.JPEG',
+  'sld/video_20250505_171001.mp4',
+  'sld/video_20250505_171001.vtt',
+  'sld/video_20250506_142001.mp4',
+  'sld/video_20250506_142001.vtt',
+  'sld/video_20250506_175001.mp4',
+  'sld/video_20250506_175001.vtt',
+  'sld/video_20250512_170501.mp4',
+  'sld/video_20250512_170501.vtt',
+  'sld/z.MOV',
+];
+
+for (const rel of manifest) {
+  const filename = rel.split('/').pop()!;
+  allFiles[`/images/${rel}`] = `${BASE}/${filename}`;
 }
 
 export interface MediaItem {

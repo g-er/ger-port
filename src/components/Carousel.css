@@ -1,0 +1,62 @@
+.carousel {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+.carousel-media {
+	width: 100%;
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #ffffff;
+}
+
+.carousel-item {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.carousel-controls {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin-top: 0.75rem;
+	flex-shrink: 0;
+	padding-bottom: 0.5rem;
+}
+
+.carousel-controls button {
+	background: none;
+	border: 1px solid #d1a34f;
+	color: #000;
+	font-size: 1.2rem;
+	padding: 0.25rem 0.75rem;
+	cursor: pointer;
+	font-family: inherit;
+	transition: background 200ms ease;
+}
+
+.carousel-controls button:hover {
+	background: rgba(209, 163, 79, 0.15);
+}
+
+.carousel-counter {
+	font-size: 0.9rem;
+	letter-spacing: 1px;
+}
+
+/* Subtitle cue styling — match the site font */
+video::cue {
+	font-family: "MS Gothic", "MS PGothic", Osaka, "Courier New", monospace;
+	font-size: 2rem;
+	font-weight: 200;
+	color: #fff;
+	background: rgba(0, 0, 0, 0);
+	text-shadow: 0.05em 0 black, 0 0.05em black, -0.05em 0 black, 0 -0.05em black, -0.05em -0.05em black, -0.05em 0.05em black, 0.05em -0.05em black, 0.05em 0.05em black;
+}

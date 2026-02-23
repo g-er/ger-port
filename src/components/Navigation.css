@@ -1,0 +1,75 @@
+header {
+	position: relative;
+	z-index: 40;
+	transition: width 420ms cubic-bezier(.2,.9,.2,1),
+	            min-width 420ms cubic-bezier(.2,.9,.2,1);
+}
+
+/* When vertical, header becomes the sticky sidebar */
+header.nav-vertical {
+	position: sticky;
+	top: 0;
+	align-self: flex-start;
+	width: 360px;
+	min-width: 360px;
+	height: 100vh;
+	background: rgba(255,255,255,0.98);
+	/* Orange line on the right border, full viewport height */
+	border-right: 1px solid #d1a34f;
+}
+
+nav {
+	display: flex;
+	gap: 1.25rem;
+	align-items: center;
+	transition: gap 420ms cubic-bezier(.2,.9,.2,1),
+	            padding 420ms cubic-bezier(.2,.9,.2,1);
+}
+
+nav a {
+	color: #000;
+	text-decoration: none;
+	font-size: 3rem;
+	font-weight: 600;
+	letter-spacing: 1.5px;
+	padding: 0.25rem 0.5rem;
+	/* Constrain width so long labels wrap consistently in both modes */
+	max-width: 320px;
+	transition: transform 420ms cubic-bezier(.2,.9,.2,1),
+	            color 200ms ease,
+	            opacity 300ms ease;
+}
+
+/* Vertical/expanded state */
+header.nav-vertical nav {
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1rem;
+	padding: 2.5rem 0.625rem;
+}
+
+
+/* animate nav links slightly when opening/closing */
+header.nav-vertical nav a {
+	transform: translateX(0);
+	opacity: 1;
+}
+
+/* initial subtle offset to make transform visible when toggled */
+nav a {
+	transform: translateX(4px);
+}
+
+/* Responsive: on small screens keep behavior similar but full-screen content */
+@media (max-width: 640px) {
+	header.nav-vertical {
+		width: 100%;
+		min-width: unset;
+		height: auto;
+		max-height: unset;
+		position: relative;
+	}
+	header.nav-vertical nav {
+		padding-top: 1rem;
+	}
+}

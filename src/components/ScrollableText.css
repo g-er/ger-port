@@ -1,0 +1,53 @@
+.scrollable-text-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	flex: 1;
+	min-height: 0;
+	gap: 0.5rem;
+}
+
+.scrollable-text-content {
+	flex: 1;
+	height: 100%;
+	overflow-y: auto;
+	overflow-x: hidden;
+	min-height: 0;
+	/* hide scrollbar but keep scrolling functional */
+	scrollbar-width: none;
+}
+
+.scrollable-text-content::-webkit-scrollbar {
+	display: none;
+}
+
+.scrollable-text-controls {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.4rem;
+	flex-shrink: 0;
+	align-self: center;
+}
+
+.scrollable-text-controls button {
+	background: none;
+	border: 1px solid #d1a34f;
+	color: #000;
+	font-size: 1rem;
+	padding: 0.2rem 0.5rem;
+	cursor: pointer;
+	font-family: inherit;
+	transition: background 200ms ease;
+	line-height: 1;
+}
+
+.scrollable-text-controls button:hover:not(:disabled) {
+	background: rgba(209, 163, 79, 0.15);
+}
+
+.scrollable-text-controls button:disabled {
+	opacity: 0.25;
+	cursor: default;
+}

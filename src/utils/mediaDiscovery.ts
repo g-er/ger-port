@@ -1,6 +1,6 @@
 /**
- * Static media manifest — all files are hosted on GitHub Releases.
- * Base URL for all assets:
+ * Static media manifest — large files are hosted on GitHub Releases,
+ * small subtitle (.vtt) files are served locally (CORS-safe for <track>).
  */
 const BASE = 'https://github.com/g-er/ger-port/releases/download/portfolio';
 
@@ -8,11 +8,12 @@ const imageExts = /\.(jpe?g|png|gif|webp|svg|avif)$/i;
 const videoExts = /\.(mp4|mov|webm|ogg|avi)$/i;
 const subtitleExts = /\.(vtt)$/i;
 
-// Map of virtual path -> remote URL
+// Map of virtual path -> URL
 // Key format: /images/<folder>/<filename>
 const allFiles: Record<string, string> = {};
 
-const manifest: string[] = [
+// Large remote files (GitHub Releases)
+const remoteManifest: string[] = [
   // cycles
   'cycles/1.JPEG',
   'cycles/2.mov',
@@ -32,23 +33,31 @@ const manifest: string[] = [
   'noah-choking/1.jpg',
   'noah-choking/2.jpg',
   'noah-choking/3.MOV',
-  // sld
-  'sld/1.JPEG',
+  // sld — videos only (subtitles served locally)
+  'sld/1sld.JPEG',
   'sld/3.JPEG',
   'sld/video_20250505_171001.mp4',
-  'sld/video_20250505_171001.vtt',
   'sld/video_20250506_142001.mp4',
-  'sld/video_20250506_142001.vtt',
   'sld/video_20250506_175001.mp4',
-  'sld/video_20250506_175001.vtt',
   'sld/video_20250512_170501.mp4',
-  'sld/video_20250512_170501.vtt',
   'sld/z.MOV',
 ];
 
-for (const rel of manifest) {
+for (const rel of remoteManifest) {
   const filename = rel.split('/').pop()!;
   allFiles[`/images/${rel}`] = `${BASE}/${filename}`;
+}
+
+// Local subtitle files (.vtt) — must be served from same origin for <track> CORS
+const localSubtitles: string[] = [
+  'sld/video_20250505_171001.vtt',
+  'sld/video_20250506_142001.vtt',
+  'sld/video_20250506_175001.vtt',
+  'sld/video_20250512_170501.vtt',
+];
+
+for (const rel of localSubtitles) {
+  allFiles[`/images/${rel}`] = `/images/${rel}`;
 }
 
 export interface MediaItem {

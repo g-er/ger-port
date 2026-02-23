@@ -13,7 +13,10 @@ dist-ssr
 *.local
 
 # Media assets (too large for git — deploy separately)
-public/images/
+# Ignore all files inside public/images subfolders...
+public/images/*/*
+# ...except subtitle files (small text, needed for CORS-safe <track>)
+!public/images/*/*.vtt
 
 # Editor directories and files
 .vscode/*

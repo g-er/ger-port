@@ -54,12 +54,9 @@ function AppContent() {
         // Scroll to the project after a brief delay for rendering
         setTimeout(() => {
           const target = document.getElementById(projectSlug);
-          if (target && mainRef.current) {
+          if (target) {
             isScrollingRef.current = true;
-            mainRef.current.scrollTo({
-              top: target.offsetTop - mainRef.current.offsetTop,
-              behavior: 'smooth',
-            });
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             setTimeout(() => { isScrollingRef.current = false; }, 800);
           }
         }, 100);
@@ -135,12 +132,19 @@ function AppContent() {
     internalNavRef.current = true;
     navigate(`/projects/${key}`, { replace: true });
 
-    const target = document.getElementById(key);
-    if (target && mainRef.current) {
-      mainRef.current.scrollTo({
-        top: target.offsetTop - mainRef.current.offsetTop,
-        behavior: 'smooth',
-      });
+    // Use scrollIntoView on the section element — works regardless of offsetTop calculation
+    const scroll = () => {
+      const target = document.getElementById(key);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+
+    // If sections are already mounted, scroll immediately; otherwise wait one frame
+    if (document.getElementById(key)) {
+      scroll();
+    } else {
+      requestAnimationFrame(() => requestAnimationFrame(scroll));
     }
 
     setTimeout(() => {

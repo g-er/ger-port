@@ -1,4 +1,12 @@
 /* --- Global Styles & Fonts --- */
+@font-face {
+    font-family: "MS Gothic";
+    src: url("./fonts/MS Gothic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     box-sizing: border-box;
 }

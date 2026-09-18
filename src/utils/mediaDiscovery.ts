@@ -1,6 +1,10 @@
 /**
- * Static media manifest — large files are hosted on GitHub Releases,
- * small subtitle (.vtt) files are served locally (CORS-safe for <track>).
+ * Static media manifest.
+ *
+ * Videos are intentionally served from the same origin (local /public/images)
+ * because Safari is stricter than other browsers about remote media URLs and
+ * GitHub Release assets may be delivered with attachment/octet-stream headers.
+ * Images may still use GitHub Releases, but videos should stay local and MP4.
  */
 const BASE = 'https://github.com/g-er/ger-port/releases/download/portfolio';
 
@@ -11,6 +15,18 @@ const subtitleExts = /\.(vtt)$/i;
 // Map of virtual path -> URL
 // Key format: /images/<folder>/<filename>
 const allFiles: Record<string, string> = {};
+
+const localVideoOverrides: Record<string, string> = {
+  '/images/cycles/2.mov': '/images/cycles/2.mp4',
+  '/images/cycles/IMG_0661.MP4': '/images/cycles/IMG_0661.MP4',
+  '/images/mee/IMG_0639.MOV': '/images/mee/IMG_0639.mp4',
+  '/images/noah-choking/3.MOV': '/images/noah-choking/3.mp4',
+  '/images/sld/video_20250505_171001.mp4': '/images/sld/video_20250505_171001.mp4',
+  '/images/sld/video_20250506_142001.mp4': '/images/sld/video_20250506_142001.mp4',
+  '/images/sld/video_20250506_175001.mp4': '/images/sld/video_20250506_175001.mp4',
+  '/images/sld/video_20250512_170501.mp4': '/images/sld/video_20250512_170501.mp4',
+  '/images/sld/z.MOV': '/images/sld/z.mp4',
+};
 
 // Large remote files (GitHub Releases)
 const remoteManifest: string[] = [
@@ -46,6 +62,10 @@ const remoteManifest: string[] = [
 for (const rel of remoteManifest) {
   const filename = rel.split('/').pop()!;
   allFiles[`/images/${rel}`] = `${BASE}/${filename}`;
+}
+
+for (const [path, url] of Object.entries(localVideoOverrides)) {
+  allFiles[path] = url;
 }
 
 // Local subtitle files (.vtt) — must be served from same origin for <track> CORS

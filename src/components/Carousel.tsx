@@ -32,7 +32,14 @@ export default function Carousel({ items: itemsProp, folder }: CarouselProps) {
     <div className="carousel">
       <div className="carousel-media">
         {current.type === 'video' ? (
-          <video key={current.src} controls src={current.src} className="carousel-item">
+          <video
+            key={current.src}
+            controls
+            playsInline
+            preload="metadata"
+            src={current.src}
+            className="carousel-item"
+          >
             {current.subtitle && (
               <track
                 kind="subtitles"

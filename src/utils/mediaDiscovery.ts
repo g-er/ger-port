@@ -1,10 +1,8 @@
 /**
  * Static media manifest.
  *
- * Videos are intentionally served from the same origin (local /public/images)
- * because Safari is stricter than other browsers about remote media URLs and
- * GitHub Release assets may be delivered with attachment/octet-stream headers.
- * Images may still use GitHub Releases, but videos should stay local and MP4.
+ * Media is served from the portfolio GitHub Release so the deployed site does
+ * not need to bundle the large original media files.
  */
 const BASE = 'https://github.com/g-er/ger-port/releases/download/portfolio';
 
@@ -16,23 +14,11 @@ const subtitleExts = /\.(vtt)$/i;
 // Key format: /images/<folder>/<filename>
 const allFiles: Record<string, string> = {};
 
-const localVideoOverrides: Record<string, string> = {
-  '/images/cycles/2.mov': '/images/cycles/2.mp4',
-  '/images/cycles/IMG_0661.MP4': '/images/cycles/IMG_0661.MP4',
-  '/images/mee/IMG_0639.MOV': '/images/mee/IMG_0639.mp4',
-  '/images/noah-choking/3.MOV': '/images/noah-choking/3.mp4',
-  '/images/sld/video_20250505_171001.mp4': '/images/sld/video_20250505_171001.mp4',
-  '/images/sld/video_20250506_142001.mp4': '/images/sld/video_20250506_142001.mp4',
-  '/images/sld/video_20250506_175001.mp4': '/images/sld/video_20250506_175001.mp4',
-  '/images/sld/video_20250512_170501.mp4': '/images/sld/video_20250512_170501.mp4',
-  '/images/sld/z.MOV': '/images/sld/z.mp4',
-};
-
 // Large remote files (GitHub Releases)
 const remoteManifest: string[] = [
   // cycles
   'cycles/1.JPEG',
-  'cycles/2.mov',
+  'cycles/2.mp4',
   'cycles/3.jpg',
   'cycles/b.jpg',
   'cycles/DSC05888.jpg',
@@ -44,11 +30,11 @@ const remoteManifest: string[] = [
   'mee/dsc02302-1024x683.jpg',
   'mee/dsc02323-1024x683.jpg',
   'mee/IMG_0629.JPEG',
-  'mee/IMG_0639.MOV',
+  'mee/IMG_0639.mp4',
   // noah-choking
   'noah-choking/1.jpg',
   'noah-choking/2.jpg',
-  'noah-choking/3.MOV',
+  'noah-choking/3.mp4',
   // sld — videos only (subtitles served locally)
   'sld/1sld.JPEG',
   'sld/3.JPEG',
@@ -56,16 +42,12 @@ const remoteManifest: string[] = [
   'sld/video_20250506_142001.mp4',
   'sld/video_20250506_175001.mp4',
   'sld/video_20250512_170501.mp4',
-  'sld/z.MOV',
+  'sld/z.mp4',
 ];
 
 for (const rel of remoteManifest) {
   const filename = rel.split('/').pop()!;
   allFiles[`/images/${rel}`] = `${BASE}/${filename}`;
-}
-
-for (const [path, url] of Object.entries(localVideoOverrides)) {
-  allFiles[path] = url;
 }
 
 // Local subtitle files (.vtt) — must be served from same origin for <track> CORS

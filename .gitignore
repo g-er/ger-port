@@ -23,6 +23,9 @@ public/images/*/*
 !public/images/*/*.MP4
 # Subtitles are small text files needed for CORS-safe <track>.
 !public/images/*/*.vtt
+# Novel Objects documentation is served from the repository.
+!public/images/novel-objects/
+!public/images/novel-objects/**
 
 # Editor directories and files
 .vscode/*

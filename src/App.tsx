@@ -5,6 +5,8 @@ import Cycles from './pages/Cycles';
 import Mee from './pages/Mee';
 import NoahChoking from './pages/NoahChoking';
 import SLD from './pages/SLD';
+import NovelObjects from './pages/NovelObjects';
+import NovelObjectsBirthDefects from './pages/NovelObjectsBirthDefects';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import { useDitheredBorders } from './hooks/useDitheredBorders';
@@ -15,7 +17,8 @@ import './styles/global.css';
 // For local development, leave as '/'
 const BASE_PATH = '/';
 
-const PROJECT_KEYS = ['cycles', 'mee', 'noah-choking', 'sld'];
+const PROJECT_KEYS = ['cycles', 'mee', 'noah-choking', 'sld', 'novel-objects'];
+const NOVEL_OBJECTS_CHILD_KEY = 'novel-objects-birth-defects';
 
 function AppContent() {
   const appRef = useRef<HTMLDivElement>(null);
@@ -30,11 +33,15 @@ function AppContent() {
   const path = location.pathname.replace(/\/$/, '') || '/';
   const isProjectRoute = path.startsWith('/projects');
   const projectSlug = isProjectRoute ? path.split('/')[2] || null : null;
+  const childSlug = isProjectRoute ? path.split('/')[3] || null : null;
+  const activeProjectKey = childSlug === 'birth-defects' ? NOVEL_OBJECTS_CHILD_KEY : projectSlug;
   const activePage = path === '/about' ? 'about' : path === '/contact' ? 'contact' : null;
   const sidebarOpen = isProjectRoute;
 
   const [activeProject, setActiveProject] = useState<string | null>(
-    projectSlug && PROJECT_KEYS.includes(projectSlug) ? projectSlug : (isProjectRoute ? 'cycles' : null)
+    activeProjectKey && (PROJECT_KEYS.includes(activeProjectKey) || activeProjectKey === NOVEL_OBJECTS_CHILD_KEY)
+      ? activeProjectKey
+      : (isProjectRoute ? 'cycles' : null)
   );
 
   // Attach dithered particle borders to nav links only
@@ -50,10 +57,10 @@ function AppContent() {
 
     if (isProjectRoute) {
       if (projectSlug && PROJECT_KEYS.includes(projectSlug)) {
-        setActiveProject(projectSlug);
+        setActiveProject(activeProjectKey || projectSlug);
         // Scroll to the project after a brief delay for rendering
         setTimeout(() => {
-          const target = document.getElementById(projectSlug);
+          const target = document.getElementById(activeProjectKey || projectSlug);
           if (target) {
             isScrollingRef.current = true;
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -66,7 +73,7 @@ function AppContent() {
     } else {
       setActiveProject(null);
     }
-  }, [path, isProjectRoute, projectSlug]);
+  }, [path, isProjectRoute, projectSlug, activeProjectKey]);
 
   // IntersectionObserver: track which project section is in view
   useEffect(() => {
@@ -108,7 +115,10 @@ function AppContent() {
           currentId = bestId;
           setActiveProject(bestId);
           internalNavRef.current = true;
-          navigate(`/projects/${bestId}`, { replace: true });
+          const route = bestId === NOVEL_OBJECTS_CHILD_KEY
+            ? '/projects/novel-objects/birth-defects'
+            : `/projects/${bestId}`;
+          navigate(route, { replace: true });
         }
       },
       {
@@ -127,14 +137,18 @@ function AppContent() {
   }, [navigate]);
 
   const handleProjectClick = useCallback((key: string) => {
+    const targetKey = key;
+    const targetPath = targetKey === NOVEL_OBJECTS_CHILD_KEY
+      ? '/projects/novel-objects/birth-defects'
+      : `/projects/${targetKey}`;
     isScrollingRef.current = true;
-    setActiveProject(key);
+    setActiveProject(targetKey);
     internalNavRef.current = true;
-    navigate(`/projects/${key}`, { replace: true });
+    navigate(targetPath, { replace: true });
 
     // Use scrollIntoView on the section element — works regardless of offsetTop calculation
     const scroll = () => {
-      const target = document.getElementById(key);
+      const target = document.getElementById(targetKey);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
@@ -192,6 +206,12 @@ function AppContent() {
           </section>
           <section id="sld">
             <SLD />
+          </section>
+          <section id="novel-objects">
+            <NovelObjects />
+          </section>
+          <section id="novel-objects-birth-defects">
+            <NovelObjectsBirthDefects />
           </section>
         </main>
       )}

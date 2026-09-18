@@ -266,6 +266,10 @@ nav a {
     font-weight: 600;
 }
 
+.project-meta.mee-meta {
+    justify-content: flex-start;
+}
+
 .project-meta::-webkit-scrollbar {
     display: none;
 }

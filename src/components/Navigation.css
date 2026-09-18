@@ -55,6 +55,11 @@ header.nav-vertical nav a {
 	opacity: 1;
 }
 
+header.nav-vertical nav a.child-project {
+	font-size: 2rem;
+	margin-left: 1.25rem;
+}
+
 /* initial subtle offset to make transform visible when toggled */
 nav a {
 	transform: translateX(4px);

@@ -7,7 +7,7 @@
 const BASE = 'https://github.com/g-er/ger-port/releases/download/portfolio';
 
 const imageExts = /\.(jpe?g|png|gif|webp|svg|avif)$/i;
-const videoExts = /\.(mp4|mov|webm|ogg|avi)$/i;
+const videoExts = /\.(mp4|mov|webm|ogg|avi|qt)$/i;
 const subtitleExts = /\.(vtt)$/i;
 
 // Map of virtual path -> URL
@@ -25,6 +25,23 @@ const localVideoOverrides: Record<string, string> = {
   '/images/sld/video_20250512_170501.mp4': '/images/sld/video_20250512_170501.mp4',
   '/images/sld/z.mp4': '/images/sld/z.mp4',
 };
+
+const localNovelObjectsMedia = [
+  'IMG_1560.MOV',
+  'Screencast_20260918_163742.webm',
+  'Screenshot_20260918_163641.png',
+  '„spring2026-44.jpg“ kopija.JPEG',
+  '„spring2026-47.jpg“ kopija.JPEG',
+  '„spring2026-49.jpg“ kopija.JPEG',
+  'birth defects or reproductive harm/9c239eca3476427f8f64272148a08c0d.qt',
+  'birth defects or reproductive harm/IMG_1664.JPEG',
+  'birth defects or reproductive harm/IMG_1699.JPEG',
+  'birth defects or reproductive harm/IMG_1708.JPEG',
+];
+
+for (const rel of localNovelObjectsMedia) {
+  allFiles[`/images/novel-objects/${rel}`] = `/images/novel-objects/${rel}`;
+}
 
 // Large remote files (GitHub Releases)
 const remoteManifest: string[] = [

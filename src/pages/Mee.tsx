@@ -22,11 +22,15 @@ Eventually the algae consume the excess greenhouse gasses. Global temperature de
             </p>
           </ScrollableText>
         </div>
-        <dl className="project-meta">
+        <dl className="project-meta mee-meta">
           <dt>first exhibited</dt>
           <dd>2025, Retrito Smarsas, Vilnius</dd>
           <dt>materials</dt>
           <dd>plastic sheet, algae grown from a sample gathered at Kedainiai phosphogypsum waste site, water, steel cable</dd>
+          <dt>co-author</dt>
+          <dd>Sibilė Marija Brazauskaitė</dd>
+          <dt>documentation</dt>
+          <dd>Daniel Kravčiuk</dd>
           <dt>length</dt>
           <dd>Variable length</dd>
         </dl>

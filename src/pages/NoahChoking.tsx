@@ -22,6 +22,8 @@ export default function NoahChoking() {
           <dd>2025, Vilnius art academy</dd>
           <dt>materials</dt>
           <dd>Spout, iron enriched water, canister, water pump, vinyl pipe.</dd>
+          <dt>documentation</dt>
+          <dd>Aidas Stončius</dd>
           <dt>length</dt>
           <dd>Variable</dd>
         </dl>

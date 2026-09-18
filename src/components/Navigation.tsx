@@ -27,12 +27,16 @@ export default function Navigation({ onSidebarToggle, onNavigate, onProjectClick
 
   // --- Sidebar (vertical) nav items ---
   const sidebarItems = [
-    { key: 'cycles', label: 'cycles', path: '/projects/cycles' },
-    { key: 'mee', label: 'MEE!', path: '/projects/mee' },
-    { key: 'noah-choking', label: 'Noah, choking', path: '/projects/noah-choking' },
-    { key: 'sld', label: 'SOCIAL LISTENING DEVICE', path: '/projects/sld' },
-    { key: 'home', label: 'home', path: '/' },
+    { key: 'cycles', label: 'cycles', path: '/projects/cycles', child: false },
+    { key: 'mee', label: 'MEE!', path: '/projects/mee', child: false },
+    { key: 'noah-choking', label: 'Noah, choking', path: '/projects/noah-choking', child: false },
+    { key: 'sld', label: 'SOCIAL LISTENING DEVICE', path: '/projects/sld', child: false },
+    { key: 'novel-objects', label: 'Novel Objects', path: '/projects/novel-objects', child: false },
+    { key: 'novel-objects-birth-defects', label: 'Birth Defects or Reproductive Harm', path: '/projects/novel-objects/birth-defects', child: true },
+    { key: 'home', label: 'home', path: '/', child: false },
   ];
+
+  const novelObjectsOpen = location.pathname.startsWith('/projects/novel-objects');
 
   function handleMainClick(e: React.MouseEvent, key: string) {
     e.preventDefault();
@@ -65,12 +69,12 @@ export default function Navigation({ onSidebarToggle, onNavigate, onProjectClick
     <header ref={(r) => { headerRef.current = r; }} className={vertical ? 'nav-vertical' : ''}>
       <nav ref={(n) => { navRef.current = n; }}>
         {vertical
-          ? sidebarItems.map((it) => (
+          ? sidebarItems.filter((it) => !it.child || novelObjectsOpen).map((it) => (
               <a
                 href={it.path}
                 key={it.key}
                 data-key={it.key}
-                className={activeProject === it.key ? 'active' : ''}
+                className={`${activeProject === it.key ? 'active' : ''}${it.child ? ' child-project' : ''}`}
                 onClick={(e) => handleSidebarClick(e, it.key)}
               >
                 {it.label}

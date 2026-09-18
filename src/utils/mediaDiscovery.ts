@@ -1,8 +1,8 @@
 /**
  * Static media manifest.
  *
- * Media is served from the portfolio GitHub Release so the deployed site does
- * not need to bundle the large original media files.
+ * Images are served from the portfolio GitHub Release. Videos use same-origin
+ * MP4 copies because Safari rejects GitHub Release attachment responses.
  */
 const BASE = 'https://github.com/g-er/ger-port/releases/download/portfolio';
 
@@ -13,6 +13,18 @@ const subtitleExts = /\.(vtt)$/i;
 // Map of virtual path -> URL
 // Key format: /images/<folder>/<filename>
 const allFiles: Record<string, string> = {};
+
+const localVideoOverrides: Record<string, string> = {
+  '/images/cycles/2.mp4': '/images/cycles/2.mp4',
+  '/images/cycles/IMG_0661.MP4': '/images/cycles/IMG_0661.MP4',
+  '/images/mee/IMG_0639.mp4': '/images/mee/IMG_0639.mp4',
+  '/images/noah-choking/3.mp4': '/images/noah-choking/3.mp4',
+  '/images/sld/video_20250505_171001.mp4': '/images/sld/video_20250505_171001.mp4',
+  '/images/sld/video_20250506_142001.mp4': '/images/sld/video_20250506_142001.mp4',
+  '/images/sld/video_20250506_175001.mp4': '/images/sld/video_20250506_175001.mp4',
+  '/images/sld/video_20250512_170501.mp4': '/images/sld/video_20250512_170501.mp4',
+  '/images/sld/z.mp4': '/images/sld/z.mp4',
+};
 
 // Large remote files (GitHub Releases)
 const remoteManifest: string[] = [
@@ -48,6 +60,10 @@ const remoteManifest: string[] = [
 for (const rel of remoteManifest) {
   const filename = rel.split('/').pop()!;
   allFiles[`/images/${rel}`] = `${BASE}/${filename}`;
+}
+
+for (const [path, url] of Object.entries(localVideoOverrides)) {
+  allFiles[path] = url;
 }
 
 // Local subtitle files (.vtt) — must be served from same origin for <track> CORS

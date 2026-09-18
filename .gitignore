@@ -12,10 +12,16 @@ dist
 dist-ssr
 *.local
 
-# Media assets (too large for git — deploy separately)
-# Ignore all files inside public/images subfolders...
+# Media assets
+# Keep the Safari-compatible MP4 files in the repository; original camera
+# files remain ignored because they are larger and use less compatible codecs.
 public/images/*/*
-# ...except subtitle files (small text, needed for CORS-safe <track>)
+# Re-include media directories so the specific file rules below can apply.
+!public/images/
+!public/images/*/
+!public/images/*/*.mp4
+!public/images/*/*.MP4
+# Subtitles are small text files needed for CORS-safe <track>.
 !public/images/*/*.vtt
 
 # Editor directories and files

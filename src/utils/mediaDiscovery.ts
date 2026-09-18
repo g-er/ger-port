@@ -28,7 +28,7 @@ const localVideoOverrides: Record<string, string> = {
 
 const localNovelObjectsMedia = [
   'IMG_1560.MOV',
-  'Screencast_20260918_163742.webm',
+  'Screencast_20260918_163742.mp4',
   'Screenshot_20260918_163641.png',
   '„spring2026-44.jpg“ kopija.JPEG',
   '„spring2026-47.jpg“ kopija.JPEG',
